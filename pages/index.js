@@ -14,17 +14,19 @@ import { ArrowRightIcon } from '@heroicons/react/solid';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Home = ({ homepageData }) => {
-  const { data, error } = useSWR(
-    'http://localhost:1337/api/navigation/render/1',
-    fetcher
-  );
-
   console.log(homepageData);
 
-  const heroImage = `http://localhost:1337${homepageData.data.attributes.hero[0].image.data.attributes.url}`;
+  // const { data, error } = useSWR(
+  //   'http://localhost:1337/api/navigation/render/1',
+  //   fetcher
+  // );
+
+  // console.log(homepageData);
+
+  // const heroImage = `http://localhost:1337${homepageData.data.attributes.hero[0].image.data.attributes.url}`;
+  // console.log(heroImage)
 
   const Hero = styled.div`
-    background-image: url(${heroImage});
     height: 100vh;
     width: 100%;
     display: flex;
@@ -111,8 +113,8 @@ const Home = ({ homepageData }) => {
   );
 };
 
-export async function getStaticProps() {
-  const res = await fetch('http://localhost:1337/api/homepage?populate=deep');
+export async function getServerSideProps() {
+  const res = await fetch('http://strapi.romainprevost.com/api/homepage?populate=deep');
   const homepageData = await res.json();
 
   return {
