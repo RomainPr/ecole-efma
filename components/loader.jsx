@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Logo from '../assets/images/logo_efma.webp';
+import Logo from '../assets/images/EFMA_LOGO.jpg';
 import styled from 'styled-components';
 
 const Screen = styled.div`
@@ -33,7 +33,7 @@ const LogoContainer = styled.div`
 const Loader = () => (
   <Screen>
     <LogoContainer>
-      <Image src={Logo} width={60} height={60} alt="Logo_efma" />
+      <Image src={Logo} width={80} height={80} alt="Logo_efma" />
     </LogoContainer>
   </Screen>
 );

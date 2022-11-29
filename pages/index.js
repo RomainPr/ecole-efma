@@ -4,16 +4,22 @@ import Navbar from '../components/navbar';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
+
+import Metro from '../assets/images/metro.png';
+
 import { ArrowRightIcon } from '@heroicons/react/solid';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Home = ({ homepageData }) => {
-  
   const { data, error } = useSWR(
     'http://localhost:1337/api/navigation/render/1',
     fetcher
   );
+
+  console.log(homepageData);
 
   const heroImage = `http://localhost:1337${homepageData.data.attributes.hero[0].image.data.attributes.url}`;
 
@@ -35,7 +41,7 @@ const Home = ({ homepageData }) => {
       right: 0px;
       bottom: 0px;
       left: 0px;
-      background-color: rgba(0, 0, 0, 0.25);
+      background-color: rgba(0, 0, 0, 0.15);
     }
   `;
 
@@ -45,7 +51,7 @@ const Home = ({ homepageData }) => {
         <title>E.F.M.A - {homepageData.data.attributes.title}</title>
       </Head>
       <div className="bg-header-light">
-        <div className="container mx-auto">
+        <div>
           <header>
             <Hero>
               <Navbar links={data} />
@@ -65,17 +71,40 @@ const Home = ({ homepageData }) => {
           </header>
         </div>
       </div>
-      <section className="container my-16 px-20">
-        <h2 className="mb-10 text-left text-4xl font-semibold">
+      <section className="bg-black px-8 lg:px-16 py-16">
+        <h2 className="mb-10 text-left text-white text-4xl font-semibold">
           {homepageData.data.attributes.section[0].title}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-5 place-content-left place-items-center">
-          <div className="col-start-1 col-end-3">
-            <p>{homepageData.data.attributes.section[0].paragraph}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 place-content-center place-items-center gap-10 lg:px-16">
+          <div>
+            <p className="leading-8 text-lg text-white">
+              {homepageData.data.attributes.section[0].paragraph}
+            </p>
           </div>
           <div>
-          
+            <Image src={Metro} alt="Metro_St_Mande" />
           </div>
+        </div>
+      </section>
+      <section className="bg-black px-8 lg:px-16 py-16">
+        <h2 className="mb-10 text-left text-white text-4xl font-semibold">
+          {homepageData.data.attributes.section2[0].title}
+        </h2>
+        <div className="grid grid-cols-1 place-content-center">
+          <Carousel autoPlay infiniteLoop showStatus={false} >
+            {homepageData.data.attributes.section2[0].image.data.map(
+              (image, index) => (
+                <div key={index}>
+                  <Image
+                    src={`http://localhost:1337${image.attributes.url}`}
+                    alt=""
+                    width={800}
+                    height={600}
+                  />
+                </div>
+              )
+            )}
+          </Carousel>
         </div>
       </section>
     </>
